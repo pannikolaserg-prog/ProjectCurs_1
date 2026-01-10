@@ -1,6 +1,11 @@
+from src.services import analize_cashback
+
 from src.views import main_page
 
 if __name__ == "__main__":
     result_views = main_page("2021-12-31 15:44:39")
 
-    print(result_views)
+    # print(result_views)
+
+    result_services = analize_cashback("./data/operations.xlsx", 2018, 3)
+    print(result_services)

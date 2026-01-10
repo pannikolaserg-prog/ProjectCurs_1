@@ -143,7 +143,7 @@ def get_currency(path_to_json: str) -> list[dict]:
             response = requests.request("GET", URL, headers=headers, data=params)
 
             status_code = response.status_code
-            if status_code == 200
+            if status_code == 200:
                 result = response.status_code
                 currency_code_responce = result["query"]["from"]
                 currency_amount = round(result["result"], 2)
