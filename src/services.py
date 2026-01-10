@@ -1,7 +1,5 @@
 import pandas as pd
-from fastjsonschema.indent import indent
-from pandas.core.dtypes.common import ensure_str
-from pandas.io.formats.format import return_docstring
+
 import json
 
 def analize_cashback(file_path: str, year: int, month: int) -> dict[str, int]:
