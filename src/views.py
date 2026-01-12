@@ -29,7 +29,7 @@ def main_page(data_time: str) -> dict[str, any]:
     currency_rates = get_currency("./data/user_settings.json")
 
     # 5. Стоимость акций из S&P500.
-    # stock_prices = get_stock_prices("./data/user_settings.json")
+    stock_prices = get_stock_prices("./data/user_settings.json")
 
 
     data = {
@@ -37,7 +37,7 @@ def main_page(data_time: str) -> dict[str, any]:
             "cards": cards,
             "top_transactions": top_transactions,
             "currency_rates": currency_rates,
-            # "stock_prices": stock_prices
+            "stock_prices": stock_prices
     }
     json_data = json.dumps(data, ensure_ascii=False, indent=4)
 

@@ -1,15 +1,18 @@
-﻿from datetime import datetime
+﻿import os
+from datetime import datetime
 import pandas as pd
 import requests
-from mypy.util import json_loads
-from numpy.f2py.crackfortran import param_eval
-from openpyxl.styles.builtins import currency
+from typing import Optional
+from dotenv import load_dotenv
 from pandas import DataFrame
-from typing import Dict, Any
 import json
 
+
 URL = "https://api.apilayer.com/currency_data/convert"
-API_KEY = "PTIuLo9UJXVpm5I9Sk2K8XfVctdvRGNz"
+URL_stock = "https://www.alphavantage.co/query"
+load_dotenv()
+API_KEY: Optional[str] = os.getenv("API_KEY")
+API_KEY_stock: Optional[str] = os.getenv("API_KEY_stock")
 
 def get_time_greeting() -> str:
     """
@@ -153,13 +156,55 @@ def get_currency(path_to_json: str) -> list[dict]:
                 })
         return currency_rates
 
+
 def get_stock_prices(path_to_json: str) -> list[dict]:
-    stock_rates = []
+    """
+    Функция принимает на вход path_to_json и возвращает цены акций
+    """
+    stock_prices = []
+
     with open(path_to_json, "r", encoding="utf-8") as file:
         data = json.load(file)
-        stocks = data['user_stock']
+        stocks = data['user_stocks']
+
         for stock in stocks:
-            pass
+            params = {
+                "function": "TIME_SERIES_INTRADAY",
+                "symbol": stock,
+                "interval": "5min",
+                "apikey": API_KEY_stock
+            }
+
+            response = requests.get(URL_stock, params=params)
+
+            if response.status_code == 200:
+                result = response.json()
+
+                # Проверяем структуру ответа
+                time_key = "Time Series (5min)"
+                if time_key in result:
+                    time_data = result[time_key]
+
+                    # Получаем последнюю запись
+                    latest_time = list(time_data.keys())[0]
+                    latest_price = time_data[latest_time]["4. close"]
+
+                    stock_prices.append({
+                        "stock": stock,
+                        "price": round(float(latest_price), 2),
+                        "time": latest_time
+                    })
+                else:
+                    # Если API вернуло ошибку (например, лимит)
+                    stock_prices.append({
+                        "stock": stock,
+                        "price": None,
+                        "time": None,
+                        "error": result.get("Note", "Ошибка получения данных")
+                    })
+
+    return stock_prices
+
 
 
 
