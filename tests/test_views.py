@@ -104,31 +104,3 @@ def test_main_page_error_handling():
     except Exception:
         # Если функция падает - это тоже нормально, если это ожидаемое поведение
         pass
-
-
-# # Простой запуск тестов без pytest
-# if __name__ == "__main__":
-#     print("Запуск простых тестов...")
-#
-#     # Тест 1
-#     try:
-#         test_main_page_structure()
-#         print("✓ Тест структуры пройден")
-#     except Exception as e:
-#         print(f"✗ Тест структуры не пройден: {e}")
-#
-#     # Тест 3
-#     try:
-#         test_main_page_json_format()
-#         print("✓ Тест JSON формата пройден")
-#     except Exception as e:
-#         print(f"✗ Тест JSON формата не пройден: {e}")
-#
-#     # Тест 4
-#     try:
-#         test_main_page_different_dates()
-#         print("✓ Тест с разными датами пройден")
-#     except Exception as e:
-#         print(f"✗ Тест с разными датами не пройден: {e}")
-#
-#     print("\nВсе тесты завершены!")
