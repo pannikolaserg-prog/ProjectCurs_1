@@ -1,5 +1,3 @@
-from unicodedata import category
-
 from src.services import analize_cashback
 from src.reports import spending_by_category
 from src.views import main_page
